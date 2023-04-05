@@ -1,0 +1,115 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sivak Products</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"rel="stylesheet">
+    <link rel="stylesheet" href="https//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+const csrftoken = getToken('csrftoken');
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Sivak</h1>
+            <div class="menu">
+                <a href="{% url 'home' %}">Home</a> 
+                <a href="#">About Us</a> 
+                <a href="#" class="is-active">Products</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="icons">
+                <a href="#"><img src="{% static 'images/search.jpg'%}"></a>
+                <a href="#"><img src="{% static 'images/account.png'%}"></a>
+                <a href="{% url 'cart' %}"><img src="{% static 'images/cart.png'%}"></a>
+            </div>
+            <button class="hamburger">
+                <span></span> 
+                <span></span>
+                <span></span> 
+            </button>
+        </div>
+    </nav>
+
+<!-- -------------------------------------All Products--------------------------------------->
+    <section class="product">
+        <h2 class="title">All Products</h2>
+        <div class="product-container">
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <a href="{% url 'product_details' %}"><img src="{{product.imageURL}}" class="product-thumb" alt=""></a>
+                    <!-- <a href="{% url 'cart' %}"> -->
+                    <button data-product={{product.id}} data-action='add' class="card-btn update-cart">add to cart</button></a>    
+                </div>
+                <div class="product-info">
+                    <h2 class="product-brand">{{product.name}}</h2>
+                    <span class="price">₹{{product.price}}</span><span class="actual-price">₹40</span>
+                </div>
+            </div>
+            {%endfor%}            
+        </div>
+    </section>
+
+<!-- -------------------------------------footer------------------------------------ -->
+    <div class="footer">
+        <div class="container">
+            <div class="row_footer">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="{% static 'images/play-store.png'%}">
+                        <img src="{% static 'images/app-store.png'%}">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="{% static 'images/Sivak.jpg.png'%}">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blod Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+</body>
